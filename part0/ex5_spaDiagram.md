@@ -22,7 +22,7 @@ sequenceDiagram
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    server-->>browser: [{"content":"mk","date":"2023-01-18T23:30:42.179Z"}, ... ]
     deactivate server    
     Note right of browser: The browser executes the callback function that renders the notes 
 ```
