@@ -71,9 +71,9 @@ const App = () => {
         console.log('effect')
         phonebookService
             .getAll()
-            .then(response => {
+            .then(persons => {
             console.log('promise fulfilled')
-            setPersons(response.data)
+            setPersons(persons)
         })
     }, [])
     const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filterValue.toLowerCase()))
