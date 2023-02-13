@@ -104,7 +104,8 @@ const App = () => {
                     setNewNumber('')
                 })
                 .catch(error => {
-                    setMessage({good: false, text: `${name} has already been deleted`})
+                    console.log(error.response.data.error)
+                    setMessage({good: false, text: error.response.data.error})
                     setTimeout(() => setMessage(null),3000)
                 })
         }
@@ -123,6 +124,11 @@ const App = () => {
                     setNewName('')
                     setNewNumber('')
                     setMessage({good: true, text: `Added ${returnedPerson.name}`})
+                    setTimeout(() => setMessage(null),3000)
+                })
+                .catch(error => {
+                    console.log(error.response.data.error)
+                    setMessage({good: false, text: error.response.data.error})
                     setTimeout(() => setMessage(null),3000)
                 })
         }
