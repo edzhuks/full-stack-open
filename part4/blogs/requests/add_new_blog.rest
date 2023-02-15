@@ -1,0 +1,20 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "React good",
+  "author": "Google",
+  "url": "localhost",
+  "likes": 3
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+"title": "Angular better",
+"author": "Facebook",
+"url": "localhost",
+"likes": 1
+}
