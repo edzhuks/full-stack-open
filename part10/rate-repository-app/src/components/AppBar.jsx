@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.appBarBackground,
     },
     text: {
-        color: theme.colors.appBarText,
-        fontWeight: theme.fontWeights.bold,
+        color: theme.colors.inverseText,
+        fontWeight: 'bold',
         fontSize: theme.fontSizes.appBar,
     },
     tab: {
