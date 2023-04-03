@@ -8,16 +8,9 @@ import theme from '../theme';
 const styles = StyleSheet.create({
     errorText: {
         marginTop: 5,
-    },
-    input: {
-        margin: theme.paddings.cardContent,
-        marginBottom: 0,
-        padding: theme.paddings.cardContent,
-        borderColor: 'lightgray',
-        borderWidth: 2,
-        borderRadius: 4,
-        color: theme.colors.textSecondary,
+        marginLeft: 20,
         fontSize: theme.fontSizes.subheading,
+        color: theme.colors.error,
     },
 });
 
