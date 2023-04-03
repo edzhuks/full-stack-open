@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import theme from '../theme';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
     form: {
@@ -53,6 +54,7 @@ const LoginForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
+    const redirect = useNavigate();
     const [signIn] = useSignIn();
 
     const onSubmit = async (values) => {
@@ -60,7 +62,9 @@ const SignIn = () => {
 
         try {
             const { data } = await signIn({ username, password });
-            console.log(data);
+            if (data && data.authenticate && data.authenticate.accessToken) {
+                redirect('/');
+            }
         } catch (e) {
             console.log(e);
         }
