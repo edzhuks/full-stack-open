@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const ItemSeparator = () => <View style={styles.separator} />;
+export const ItemSeparator = () => <View style={styles.separator} />;
 
 export const RepositoryListContainer = ({ repositories }) => {
     const repositoryNodes = repositories
