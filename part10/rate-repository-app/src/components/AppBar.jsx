@@ -2,7 +2,7 @@ import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import Text from './Text';
 import theme from '../theme';
-import { Link } from 'react-router-native';
+import { Link, useNavigate } from 'react-router-native';
 import { useQuery } from '@apollo/client';
 import { ME } from '../graphql/queries';
 import { useAuthStorage } from '../hooks/useAuthStorage';
@@ -41,29 +41,37 @@ const AppBarTab = ({ text, path, onClick }) => {
 };
 
 const AppBar = () => {
+    const redirect = useNavigate();
     const { loading, data } = useQuery(ME);
     const authStorage = useAuthStorage();
     const apolloClient = useApolloClient();
 
     const logOut = async () => {
-        console.log('bleep');
         await authStorage.removeAccessToken();
         apolloClient.resetStore();
+        redirect('/signin');
     };
 
     return (
         <View style={styles.container}>
             <ScrollView horizontal>
                 <AppBarTab text="Repositories" path="/" />
+
                 {!loading &&
                     (!data.me ? (
                         <AppBarTab text="Sign In" path="/signin" />
                     ) : (
-                        <AppBarTab
-                            text="Sign Out"
-                            path="/signin"
-                            onClick={logOut}
-                        />
+                        <>
+                            <AppBarTab
+                                text="Create a review"
+                                path="/createReview"
+                            />
+                            <AppBarTab
+                                text="Sign Out"
+                                path="/signin"
+                                onClick={logOut}
+                            />
+                        </>
                     ))}
             </ScrollView>
         </View>
