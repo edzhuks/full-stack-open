@@ -43,7 +43,7 @@ const ScoreItem = ({ score, name }) => {
 
 const RepositoryItem = ({ repository }) => {
     return (
-        <View style={styles.card}>
+        <View testID="repositoryItem" style={styles.card}>
             <Row left>
                 <Image
                     style={styles.avatar}
