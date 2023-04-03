@@ -1,28 +1,19 @@
 import { StyleSheet } from 'react-native';
-import { View, Pressable } from 'react-native';
+import { View } from 'react-native';
 import FormikTextInput from './FormikTextInput';
-import Text from './Text';
 import { Formik } from 'formik';
 import theme from '../theme';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
+import BigButton from './BigButton';
 
 const styles = StyleSheet.create({
     form: {
         backgroundColor: theme.colors.foreground,
     },
-    signInButton: {
+    signinButton: {
         margin: theme.paddings.cardContent,
-        padding: theme.paddings.cardContent,
-        backgroundColor: theme.colors.primary,
-        borderRadius: 4,
-        textAlign: 'center',
-    },
-    buttonText: {
-        color: theme.colors.inverseText,
-        fontWeight: 'bold',
-        fontSize: theme.fontSizes.appBar,
     },
 });
 
@@ -36,9 +27,11 @@ const SignInForm = ({ onSubmit }) => {
                 secureTextEntry
             />
 
-            <Pressable onPress={onSubmit} style={styles.signInButton}>
-                <Text style={styles.buttonText}>Sign In</Text>
-            </Pressable>
+            <BigButton
+                style={styles.signinButton}
+                onClick={onSubmit}
+                text="Sign In"
+            />
         </View>
     );
 };
