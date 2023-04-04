@@ -1,5 +1,5 @@
 import Text from './Text';
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import { View } from 'react-native';
 import { ItemSeparator } from './RepositoryList';
 import theme from '../theme';
@@ -9,6 +9,10 @@ import Column from './Column';
 import { format, parseJSON } from 'date-fns';
 import { useQuery } from '@apollo/client';
 import { ME } from '../graphql/queries';
+import BigButton from './BigButton';
+import { useNavigate } from 'react-router-native';
+import { DELETE_REVIEW } from '../graphql/mutations';
+import { useMutation } from '@apollo/client';
 const styles = StyleSheet.create({
     card: {
         padding: theme.paddings.cardContent,
@@ -36,7 +40,28 @@ const styles = StyleSheet.create({
     },
 });
 
-export const ReviewItem = ({ review, byUsername }) => {
+export const ReviewItem = ({ review, byUsername, withActions, onDelete }) => {
+    const handleDelete = () => {
+        Alert.alert(
+            'Delete review',
+            'Are you sure you want to delete this review?',
+            [
+                {
+                    text: 'CANCEL',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'DELETE',
+                    onPress: () => {
+                        onDelete(review.id);
+                    },
+                },
+            ]
+        );
+    };
+
+    const navigate = useNavigate();
     return (
         <View style={styles.card}>
             <Row>
@@ -57,14 +82,58 @@ export const ReviewItem = ({ review, byUsername }) => {
                     <Text style={styles.ratingText}>{review.text}</Text>
                 </Column>
             </Row>
+            {withActions && (
+                <Row style={{ marginTop: theme.paddings.cardContent }}>
+                    <Column
+                        style={{
+                            flex: 1,
+                            marginRight: theme.paddings.cardContentCompact,
+                        }}>
+                        <BigButton
+                            text="View repository"
+                            onClick={() => {
+                                navigate(
+                                    `/repositories/${review.repository.id}`
+                                );
+                            }}
+                        />
+                    </Column>
+                    <Column
+                        style={{
+                            flex: 1,
+                            marginLeft: theme.paddings.cardContentCompact,
+                        }}>
+                        <BigButton
+                            text="Delete review"
+                            onClick={handleDelete}
+                            style={{ backgroundColor: theme.colors.error }}
+                        />
+                    </Column>
+                </Row>
+            )}
         </View>
     );
 };
 
 const ReviewList = () => {
-    const { loading, data } = useQuery(ME, {
+    const { loading, data, refetch } = useQuery(ME, {
         variables: { includeReviews: true },
     });
+    const [deleteReview] = useMutation(DELETE_REVIEW);
+    const onDelete = async (id) => {
+        try {
+            const { data } = await deleteReview({
+                variables: { id },
+            });
+            if (data) {
+                console.log('review deleted');
+                refetch();
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     if (loading) {
         return <Text>loading</Text>;
     }
@@ -74,7 +143,12 @@ const ReviewList = () => {
         <FlatList
             data={reviews}
             renderItem={({ item }) => (
-                <ReviewItem review={item} byUsername={false} />
+                <ReviewItem
+                    review={item}
+                    byUsername={false}
+                    withActions={true}
+                    onDelete={onDelete}
+                />
             )}
             keyExtractor={({ id }) => id}
             ItemSeparatorComponent={ItemSeparator}
