@@ -51,6 +51,7 @@ export const RepositoryListContainer = ({
     repositories,
     searchQuery,
     setSearchQuery,
+    onEndReach,
 }) => {
     const repositoryNodes = repositories
         ? repositories.edges.map((edge) => edge.node)
@@ -70,6 +71,8 @@ export const RepositoryListContainer = ({
                     setSearchQuery={setSearchQuery}
                 />
             }
+            onEndReached={onEndReach}
+            onEndReachedThreshold={0.5}
         />
     );
 };
@@ -78,10 +81,15 @@ const RepositoryList = () => {
     const [selectedSort, setSort] = useState('latest');
     const [searchQuery, setSearchQuery] = useState('');
     const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
-    const { repositories } = useRepositories(
+    const { repositories, fetchMore } = useRepositories(
         selectedSort,
-        debouncedSearchQuery
+        debouncedSearchQuery,
+        8
     );
+    const onEndReach = () => {
+        console.log('end reached');
+        fetchMore();
+    };
     return (
         <RepositoryListContainer
             repositories={repositories}
@@ -89,6 +97,7 @@ const RepositoryList = () => {
             setSort={setSort}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            onEndReach={onEndReach}
         />
     );
 };

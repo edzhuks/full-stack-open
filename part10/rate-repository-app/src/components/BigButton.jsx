@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.primary,
         borderRadius: 4,
         textAlign: 'center',
-        alignSelf: 'stretch',
     },
     buttonText: {
         color: theme.colors.inverseText,

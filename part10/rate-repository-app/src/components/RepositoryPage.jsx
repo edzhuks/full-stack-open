@@ -18,8 +18,8 @@ const RepositoryInfo = ({ repository }) => {
 
 const RepositoryPage = () => {
     const { id } = useParams();
-    const { repository } = useRepository(id);
-    if (!repository) {
+    const { repository, loading, fetchMore } = useRepository(id, 4);
+    if (loading) {
         return <Text>loading</Text>;
     }
     const reviews = repository.reviews.edges.map((edge) => edge.node);
@@ -34,6 +34,8 @@ const RepositoryPage = () => {
                 <RepositoryInfo repository={repository} />
             )}
             ItemSeparatorComponent={ItemSeparator}
+            onEndReached={fetchMore}
+            onEndReachedThreshold={0.5}
         />
     );
 };

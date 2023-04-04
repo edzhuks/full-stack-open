@@ -31,7 +31,7 @@ const ReviewFormBase = ({ onSubmit }) => {
             <BigButton
                 style={styles.signinButton}
                 onClick={onSubmit}
-                text="Sign In"
+                text="Post review"
             />
         </View>
     );
