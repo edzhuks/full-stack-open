@@ -59,7 +59,10 @@ const AppBar = () => {
 
                 {!loading &&
                     (!data.me ? (
-                        <AppBarTab text="Sign In" path="/signin" />
+                        <>
+                            <AppBarTab text="Sign In" path="/signin" />
+                            <AppBarTab text="Sign Up" path="/signup" />
+                        </>
                     ) : (
                         <>
                             <AppBarTab
